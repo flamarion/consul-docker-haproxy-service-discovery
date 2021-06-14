@@ -1,0 +1,5 @@
+{
+  "retry_join": ["172.17.0.2"],
+  "data_dir": "/opt/consul",
+  "enable_script_checks": true
+}

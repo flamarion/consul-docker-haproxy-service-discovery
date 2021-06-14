@@ -1,0 +1,13 @@
+{
+  "node_name": "consul-server",
+  "server": true,
+  "ui_config": {
+    "enabled": true
+  },
+  "data_dir": "/opt/consul",
+  "addresses": {
+    "http": "0.0.0.0"
+  },
+  "bootstrap_expect": 1,
+  "client_addr": "0.0.0.0"
+}
