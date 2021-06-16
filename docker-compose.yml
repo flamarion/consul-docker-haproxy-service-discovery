@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  consul-server1:
+    image: consul:flama
+    container_name: consul-server1
+    restart: always
+    volumes:
+      - ./consul-server/server1.json:/etc/consul.d/server1.json:ro
+      - ./certs/:/etc/consul.d/certs/:ro
+    networks:
+      - consul
+    ports:
+      - "8500:8500"
+      - "8600:8600/tcp"
+      - "8600:8600/udp"
+    command: "consul agent -bootstrap-expect=3 -config-dir /etc/consul.d"
+
+  consul-server2:
+    image: consul:flama
+    container_name: consul-server2
+    restart: always
+    volumes:
+      - ./consul-server/server2.json:/etc/consul.d/server2.json:ro
+      - ./certs/:/etc/consul.d/certs/:ro
+    networks:
+      - consul
+    expose:
+      - "8600/tcp"
+      - "8600/udp"
+    command: "consul agent -bootstrap-expect=3 -config-dir /etc/consul.d"
+
+  consul-server3:
+    image: consul:flama
+    container_name: consul-server3
+    restart: always
+    volumes:
+      - ./consul-server/server3.json:/etc/consul.d/server3.json:ro
+      - ./certs/:/etc/consul.d/certs/:ro
+    networks:
+      - consul
+    expose:
+      - "8600/tcp"
+      - "8600/udp"
+    command: "consul agent -bootstrap-expect=3 -config-dir /etc/consul.d"
+
+  haproxy:
+    image: haproxy:2.4
+    container_name: haproxy
+    restart: always
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      - consul
+    ports:
+      - "8080:80"
+      - "9090:9090"
+
+  consul-client-webserver:
+    image: webserver:flama
+    restart: always
+    volumes:
+      - ./consul-client-webserver/client.json:/etc/consul.d/client.json:ro
+      - ./consul-client-webserver/webserver.json:/etc/consul.d/webserver.json:ro
+      - ./consul-client-webserver/apache2_supervised.conf:/etc/supervisor/conf.d/apache2_supervised.conf:ro
+      - ./consul-client-webserver/consul_supervised.conf:/etc/supervisor/conf.d/consul_supervised.conf:ro
+      - ./certs/:/etc/consul.d/certs/:ro
+    networks:
+      - consul
+    command: "/usr/bin/supervisord --nodaemon -c /etc/supervisor/supervisord.conf"
+
+networks:
+  consul:
+    name: consul
+    driver: bridge

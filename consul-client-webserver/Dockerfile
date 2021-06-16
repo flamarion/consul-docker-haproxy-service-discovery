@@ -17,13 +17,6 @@ RUN mkdir -p /etc/consul.d && \
 RUN wget ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${consulArch}.zip && \
     unzip -d /bin consul_${CONSUL_VERSION}_linux_${consulArch}.zip && \
     consul version
-
-#COPY ./client.json /etc/consul.d/
-COPY ./*.json /etc/consul.d/
-COPY ./*.conf /etc/supervisor/conf.d/
-
-EXPOSE 8500 8600 8600/udp
-
-#CMD ["consul", "agent", "-config-dir", "/etc/consul.d"]
+    
 CMD ["/usr/bin/supervisord", "--nodaemon", "-c", "/etc/supervisor/supervisord.conf"]
 

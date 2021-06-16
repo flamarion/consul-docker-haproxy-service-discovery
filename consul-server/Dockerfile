@@ -17,9 +17,7 @@ RUN wget ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}
     unzip -d /bin consul_${CONSUL_VERSION}_linux_${consulArch}.zip && \
     consul version
 
-COPY ./server.json /etc/consul.d/
+# COPY ./server.json /etc/consul.d/
 
 EXPOSE 8500 8600 8600/udp
-
-CMD ["consul", "agent", "-config-dir", "/etc/consul.d"]
 
