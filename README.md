@@ -83,6 +83,7 @@ consul-server2  172.29.0.3:8301  alive   server  1.9.6  2         dc1  <all>
 consul-server3  172.29.0.5:8301  alive   server  1.9.6  2         dc1  <all>
 10321b3ca23e    172.29.0.6:8301  alive   client  1.9.6  2         dc1  <default>
 ```
+
 Access the Consul Cluster via http://localhost:8500
 
 Access the HAProxy statistics page via http://localhost:9090
@@ -124,13 +125,14 @@ Stopping and removing haproxy_consul-client-webserver_4 ... done
 Stopping and removing haproxy_consul-client-webserver_5 ... done
 ```
 
-
 8. Wrapping up
  You can add a webpage to each of your webservers and explore the consul configurations but this lab show very well how to create a very dynamic load balancer using Consul service discovery aligned to HA Proxy.
 
  To shutdown everything and remove all images just run the following command:
 
- ```
+ 
+
+```
  docker-compose down --rmi all
 Stopping haproxy_consul-client-webserver_2 ... done
 Stopping haproxy_consul-client-webserver_1 ... done
@@ -154,7 +156,6 @@ Removing image haproxy:2.4
 Removing image webserver:flama
 ```
 
-
 ### References.
 
 * https://www.consul.io/docs/agent/options
@@ -162,4 +163,3 @@ Removing image webserver:flama
 * https://learn.hashicorp.com/collections/consul/production-deploy
 * https://learn.hashicorp.com/tutorials/consul/load-balancing-haproxy?in=consul/load-balancing
 * https://docs.docker.com/compose/networking/
-
